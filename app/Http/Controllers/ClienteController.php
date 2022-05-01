@@ -8,81 +8,68 @@ use App\Http\Requests\UpdateClienteRequest;
 
 class ClienteController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index() // Retorna TODOS registros do banco de dados
+    public function index()
     {
-        return [
-            'ok' => 'ok'
-        ];
-    }
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        /* 
+            Retorna TODOS registros do banco de dados
+        */
+        return response()->json(['erro' => 'O método de solicitação é conhecido pelo servidor, mas foi desativado e não pode ser usado. [e: 405]'], 405);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \App\Http\Requests\StoreClienteRequest  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(StoreClienteRequest $request)
     {
+        /*
+            Salva um registro no banco de dados
+            Deve ser fornecido: nome, identificacao, data_de_nascimento, classificacao, tipo_alimentacao
+        */
         $cliente = Cliente::create($request->all());
         return $cliente;
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Cliente  $cliente
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Cliente $cliente) // Retorna 1 registo do banco dados, de acordo com ID.
+    public function show(StoreClienteRequest $request)
     {
-        return $cliente;
+        /*
+            Recupera um registro no banco de dados por meio do ID ou NOME + DATA DE NASCIMENTO.
+        */
+        $resposta = $request->all();
+        if (isset($resposta['identificacao'])) {
+            $cliente = Cliente::where('identificacao', '=', $resposta['identificacao'])->first();
+            return $cliente ? ['cliente' => $cliente] : response()->json(['erro' => 'Cliente não encontrado pelo Id [e: 404]'], 404);
+        } else if (isset($resposta['nome']) and isset($resposta['data_de_nascimento'])) {
+            $cliente = Cliente::where('nome', '=', $resposta['nome'])->where('data_de_nascimento', '=', $resposta['data_de_nascimento'])->first();
+            return $cliente ? ['cliente' => $cliente] : response()->json(['erro' => 'Cliente não encontrado pelo nome e data de nascimento [e: 404]'], 404);
+        } else {
+            return response()->json(['erro' => 'Os argumentos passados são inválidos, não foi possível encontrar o cliente [e: 422]'], 422);
+        }
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Cliente  $cliente
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Cliente $cliente)
+    public function update(UpdateClienteRequest $request)
     {
-        //
+        /*
+            Atualiza um registro no banco de dados por meio do ID.
+        */
+        $resposta = $request->all();
+        if (isset($resposta['id'])) {
+            $quantidadeAtualizadada = Cliente::where('id', '=', $resposta['id'])->update($resposta);
+            return [
+                'quantidade_atualizada' => $quantidadeAtualizadada,
+            ];
+        } else {
+            return response()->json(['erro' => 'Os argumentos passados são inválidos ou não foi possível encontrar o cliente pelo Id [e: 404]'], 404);
+        }
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \App\Http\Requests\UpdateClienteRequest  $request
-     * @param  \App\Models\Cliente  $cliente
-     * @return \Illuminate\Http\Response
-     */
-    public function update(UpdateClienteRequest $request, Cliente $cliente)
+    public function destroy($id)
     {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Cliente  $cliente
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Cliente $cliente)
-    {
-        //
+        /*
+            Deleta um registro no banco de dados por meio do ID.
+        */
+        $sucesso = Cliente::find($id);
+        if ($sucesso) {
+            $sucesso->delete();
+            return ['id' => $id];
+        } else {
+            return response()->json(['erro' => 'Não foi possível encontrar o cliente pelo Id  [e: 404]'], 404);
+        }
     }
 }

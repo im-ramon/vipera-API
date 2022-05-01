@@ -18,9 +18,12 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::apiResource('cliente', 'App\Http\Controllers\ClienteController');
-Route::apiResource('consumosextra', 'App\Http\Controllers\ConsumosExtraController');
-Route::apiResource('refeicao', 'App\Http\Controllers\RefeicaoController');
+// Route::apiResource('cliente', 'App\Http\Controllers\ClienteController');
+// Route::apiResource('consumosextra', 'App\Http\Controllers\ConsumosExtraController');
+// Route::apiResource('refeicao', 'App\Http\Controllers\RefeicaoController');
 
 
-// Route::post('cliente', 'App\Http\Controllers\ClienteController@')
+Route::post('cliente', 'App\Http\Controllers\ClienteController@store');
+Route::post('cliente/procurar', 'App\Http\Controllers\ClienteController@show');
+Route::post('cliente/atualizar', 'App\Http\Controllers\ClienteController@update');
+Route::get('cliente/deletar/{id}', 'App\Http\Controllers\ClienteController@destroy');
