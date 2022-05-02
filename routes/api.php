@@ -27,3 +27,6 @@ Route::post('cliente', 'App\Http\Controllers\ClienteController@store');
 Route::post('cliente/procurar', 'App\Http\Controllers\ClienteController@show');
 Route::post('cliente/atualizar', 'App\Http\Controllers\ClienteController@update');
 Route::get('cliente/deletar/{id}', 'App\Http\Controllers\ClienteController@destroy');
+
+Route::post('refeicao/solicitar', 'App\Http\Controllers\RefeicaoController@store');
+Route::get('refeicao/consumo/{id}/{refeicao}', 'App\Http\Controllers\RefeicaoController@edit');

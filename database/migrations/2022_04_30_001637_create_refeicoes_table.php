@@ -15,14 +15,15 @@ class CreateRefeicoesTable extends Migration
     {
         Schema::create('refeicoes', function (Blueprint $table) {
             $table->id();
-            $table->timestamps();
-            $table->unsignedBigInteger('cliente_id');
+            // $table->unsignedBigInteger('cliente_id');
+            $table->integer('cliente_id');
             $table->date('data');
             $table->string('horario', 1);
             $table->string('tipo', 128);
             $table->string('consumido', 1);
+            $table->timestamps();
 
-            $table->foreign('cliente_id')->references('id')->on('clientes');
+            // $table->foreign('cliente_id')->references('id')->on('clientes');
         });
     }
 

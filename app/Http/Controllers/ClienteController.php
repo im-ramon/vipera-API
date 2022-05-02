@@ -16,7 +16,7 @@ class ClienteController extends Controller
         return response()->json(['erro' => 'O método de solicitação é conhecido pelo servidor, mas foi desativado e não pode ser usado. [e: 405]'], 405);
     }
 
-    public function store(StoreClienteRequest $request)
+    public function store(StoreClienteRequest $request) // POST
     {
         /*
             Salva um registro no banco de dados
@@ -26,7 +26,7 @@ class ClienteController extends Controller
         return $cliente;
     }
 
-    public function show(StoreClienteRequest $request)
+    public function show(StoreClienteRequest $request) // POST
     {
         /*
             Recupera um registro no banco de dados por meio do ID ou NOME + DATA DE NASCIMENTO.
@@ -59,7 +59,7 @@ class ClienteController extends Controller
         }
     }
 
-    public function destroy($id)
+    public function destroy($id) // GET
     {
         /*
             Deleta um registro no banco de dados por meio do ID.

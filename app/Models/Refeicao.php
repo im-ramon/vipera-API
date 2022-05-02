@@ -9,4 +9,11 @@ class Refeicao extends Model
 {
     use HasFactory;
     protected $table = "refeicoes";
+    protected $fillable = [
+        'cliente_id',
+        'data',
+        'horario',
+        'tipo',
+        'consumido'
+    ];
 }
