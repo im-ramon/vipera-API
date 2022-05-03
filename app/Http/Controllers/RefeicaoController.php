@@ -12,7 +12,14 @@ class RefeicaoController extends Controller
     {
         /*
             Salva um registro no banco de dados
-            Deve ser fornecido:  cliente_id, data, horario(char 1), tipo, consumido(char 1)
+            Deve ser fornecido: 
+                cliente_id,
+                data, 
+                cafe, 
+                almoco, 
+                janta, 
+                classificacao, 
+                tipo_alimentacao, 
 
         */
         $dadosDaRefeicao = Refeicao::create($request->all());

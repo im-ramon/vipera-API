@@ -18,12 +18,12 @@ class CreateRefeicoesTable extends Migration
             // $table->unsignedBigInteger('cliente_id');
             $table->integer('cliente_id');
             $table->date('data');
-            $table->string('horario', 1);
-            $table->string('tipo', 128);
-            $table->string('consumido', 1);
+            $table->string('cafe', 2);
+            $table->string('almoco', 2);
+            $table->string('janta', 2);
+            $table->string('classificacao', 128);
+            $table->string('tipo_alimentacao', 128);
             $table->timestamps();
-            /* Criar campo unico para refeições CAJ e consumido CAJ */
-            // $table->foreign('cliente_id')->references('id')->on('clientes');
         });
     }
 

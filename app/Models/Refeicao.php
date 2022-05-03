@@ -12,8 +12,10 @@ class Refeicao extends Model
     protected $fillable = [
         'cliente_id',
         'data',
-        'horario',
-        'tipo',
-        'consumido'
+        'cafe',
+        'almoco',
+        'janta',
+        'classificacao',
+        'tipo_alimentacao'
     ];
 }
