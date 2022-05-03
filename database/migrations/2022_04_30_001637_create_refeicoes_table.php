@@ -22,7 +22,7 @@ class CreateRefeicoesTable extends Migration
             $table->string('tipo', 128);
             $table->string('consumido', 1);
             $table->timestamps();
-
+            /* Criar campo unico para refeições CAJ e consumido CAJ */
             // $table->foreign('cliente_id')->references('id')->on('clientes');
         });
     }

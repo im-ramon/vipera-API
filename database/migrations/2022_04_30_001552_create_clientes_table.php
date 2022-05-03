@@ -17,10 +17,11 @@ class CreateClientesTable extends Migration
             $table->id();
             $table->timestamps();
             $table->string('nome', 128);
-            $table->string('identificacao', 64);
+            $table->string('identificacao', 64)->unique();
             $table->date('data_de_nascimento');
-            $table->string('classificacao', 64);
-            $table->string('tipo_alimentacao', 128);
+            $table->string('classificacao', 128);
+            $table->string('tipo_alimentacao', 256);
+            $table->string('observacoes', 256)->default('-');
         });
     }
 
@@ -34,3 +35,12 @@ class CreateClientesTable extends Migration
         Schema::dropIfExists('clientes');
     }
 }
+
+/*
+nome
+identificacao
+data_de_nascimento
+classificacao
+tipo_alimentacao
+observacoes
+*/

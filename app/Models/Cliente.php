@@ -13,6 +13,7 @@ class Cliente extends Model
         'identificacao',
         'data_de_nascimento',
         'classificacao',
-        'tipo_alimentacao'
+        'tipo_alimentacao',
+        'observacoes'
     ];
 }
