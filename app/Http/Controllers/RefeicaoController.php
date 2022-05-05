@@ -28,10 +28,16 @@ class RefeicaoController extends Controller
 
     public function edit($id, $refeicao, $data)
     {
-        Refeicao::where('id', '=', $id)->update(['consumido' => 1]);
-        return [
-            'id' => $id,
-            'refeicao' => $refeicao,
-        ];
+        return Refeicao::where('cliente_id', '=', $id)->where('data', '=', $data)->update([$refeicao => 2]);
+    }
+
+    public function editx($id, $refeicao, $data)
+    {
+        return Refeicao::where('cliente_id', '=', $id)->where('data', '=', $data)->update([$refeicao => 3]);
+    }
+
+    public function show($id, $data)
+    {
+        return Refeicao::where('cliente_id', '=', $id)->where('data', '=', $data)->first();
     }
 }
