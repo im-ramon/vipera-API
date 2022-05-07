@@ -28,4 +28,6 @@ Route::get('refeicao/consumo/registrar/{id}/{refeicao}/{data}', 'App\Http\Contro
 Route::get('refeicao/consumo/registrarx/{id}/{refeicao}/{data}', 'App\Http\Controllers\RefeicaoController@editx');
 Route::get('refeicao/consumo/procurar/{id}/{data}', 'App\Http\Controllers\RefeicaoController@show');
 
-Route::get('estatisticas/{ano}/{hoje}', 'App\Http\Controllers\RefeicaoController@estatisticas');
+Route::get('estatisticas/{ano}', 'App\Http\Controllers\RefeicaoController@estatisticas');
+Route::get('relatorios/geral', 'App\Http\Controllers\RefeicaoController@relatorio_geral');
+Route::get('relatorios/nominal/{data}', 'App\Http\Controllers\RefeicaoController@relatorio_nominal_data');

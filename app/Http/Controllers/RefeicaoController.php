@@ -6,6 +6,7 @@ use App\Models\Refeicao;
 use App\Models\Cliente;
 use App\Http\Requests\StoreRefeicaoRequest;
 use App\Http\Requests\UpdateRefeicaoRequest;
+use Illuminate\Support\Facades\DB;
 
 class RefeicaoController extends Controller
 {
@@ -42,7 +43,7 @@ class RefeicaoController extends Controller
         return Refeicao::where('cliente_id', '=', $id)->where('data', '=', $data)->first();
     }
 
-    public function estatisticas($ano, $hoje)
+    public function estatisticas($ano)
     {
         // REFEIÇÕES
         $jan = Refeicao::where('data', '>=', $ano . '-01-01')->where('data', '<=', $ano . '-01-31')->get();
@@ -74,7 +75,6 @@ class RefeicaoController extends Controller
         ];
 
         $total = count($jan) + count($fev) + count($mar) + count($abr) + count($mai) + count($jun) + count($jul) + count($ago) + count($set) + count($out) + count($nov) + count($dez);
-        $refeicoesHoje = Refeicao::where('data', '=', $hoje)->where('cafe', '<>', 0)->where('almoco', '<>', 0)->where('janta', '<>', 0)->get();
 
         // CLIENTES
         $totalClientes = count(Cliente::where('id', '>=', 1)->get());
@@ -88,7 +88,6 @@ class RefeicaoController extends Controller
             'refeicoes' => [
                 'mes' => $porMes,
                 'total' => $total,
-                'hoje' => $refeicoesHoje,
             ],
             'clientes' => [
                 'total' => $totalClientes,
@@ -99,5 +98,39 @@ class RefeicaoController extends Controller
                 'tipo_indigena' => $totalClientes_indigena,
             ]
         ];
+    }
+
+    public function relatorio_geral()
+    {
+        /*
+            Retorna todos os registros de refeições
+        */
+        return Refeicao::all([
+            'data',
+            'cafe',
+            'almoco',
+            'janta',
+            'classificacao',
+            'tipo_alimentacao'
+        ]);
+    }
+
+    public function relatorio_nominal_data($data)
+    {
+        $refeicoes = DB::table('refeicoes')
+            ->leftJoin('clientes', 'clientes.id', '=', 'refeicoes.cliente_id')
+            ->where('refeicoes.data', '=', $data)
+            ->get([
+                'clientes.nome',
+                'clientes.identificacao',
+                'refeicoes.classificacao',
+                'refeicoes.data',
+                'refeicoes.cafe',
+                'refeicoes.almoco',
+                'refeicoes.janta',
+                'refeicoes.tipo_alimentacao',
+                'clientes.observacoes',
+            ]);
+        return $refeicoes;
     }
 }
