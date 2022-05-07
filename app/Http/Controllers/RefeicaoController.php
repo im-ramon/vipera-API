@@ -24,8 +24,19 @@ class RefeicaoController extends Controller
                 tipo_alimentacao, 
 
         */
-        $dadosDaRefeicao = Refeicao::create($request->all());
-        return $dadosDaRefeicao;
+        $resposta = $request->all();
+        $usuarioCheck = Cliente::where('id', '=', $resposta['cliente_id'])->get();
+        if (count($usuarioCheck) == 0) {
+            return response()->json(['erro' => 'As regras de integridade do banco de dados foram quebradas, o usário que você está tentando relacionar à refeição não existe.'], 404);
+        } else {
+            $refeicaoCheck = Refeicao::where('cliente_id', '=', $resposta['cliente_id'])->where('data', '=', $resposta['data'])->get();
+            if (count($refeicaoCheck) == 0) {
+                $dadosDaRefeicao = Refeicao::create($request->all());
+                return $dadosDaRefeicao;
+            } else {
+                return response()->json(['erro' => 'Já existe uma refeição cadastrada para esse usuário na data solicitada.'], 404);
+            }
+        };
     }
 
     public function edit($id, $refeicao, $data)
